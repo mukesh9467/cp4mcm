@@ -17,6 +17,6 @@ jobs:
       # Setup & configure instance
       - name: Configure Intance
         run: |
-          cd /var/tmp/tf12/
-          wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf
+          sudo cd /var/tmp/tf12/
+          sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf
 

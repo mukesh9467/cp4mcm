@@ -17,11 +17,11 @@ jobs:
       - name: Download Terraform Template
         run: sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
               
-      - name: Terraform Init
+      - name: Perform Terraform Init
         run: cd /var/tmp/tf12 ; terraform init
 
-      - name: Terraform Plan
+      - name: Perform Terraform Plan
         run: cd /var/tmp/tf12 ; terraform plan
         
-      - name: Terraform Apply
+      - name: Perform Terraform Apply
         run: cd /var/tmp/tf12 ; sudo /var/tmp/tf12/terraform apply --auto-approve 

@@ -17,6 +17,6 @@ jobs:
       - name: Validae Payload 
         run: |
           sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
-          terraform init 
+          cd /var/tmp/tf12 ; terraform init 
           cd /var/tmp/tf12 ; terraform plan
           cd /var/tmp/tf12 ; sudo /var/tmp/tf12/terraform apply --auto-approve 

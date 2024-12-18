@@ -26,20 +26,19 @@ jobs:
       - name: Launch EC2 Instance
         id: launch_ec2
         run: |
-          # Launch the EC2 instance
-          aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'
+          aws ec2 run-instances \
+            --image-id ami-092da15d79485517f \
+            --instance-type t2.micro \
+            --key-name tf_key \
+            --security-group-ids sg-0826493edff1d99c8 \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'
           
-          # Extract the Instance ID of the launched instance
           INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=image-id,Values=ami-092da15d79485517f" --query 'Reservations[*].Instances[].[InstanceId]' --output text | tail -n 1)
           echo "INSTANCE_ID=${INSTANCE_ID}" >> $GITHUB_ENV
-
-      - name: Wait for Instance to be Running
-        run: |
-          # Wait until the instance is running
-          aws ec2 wait instance-running --instance-ids ${{ env.INSTANCE_ID }}
+          aws ec2 wait instance-running --instance-ids ${{ INSTANCE_ID }}
+          echo "Launched Instance ID: $INSTANCE_ID"
 
       - name: Extract Public IP of Instance
         run: |
-          # Retrieve the public IP address of the instance
           PUBLIC_IP=$(aws ec2 describe-instances --instance-ids ${{ env.INSTANCE_ID }} --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
           echo "Public IP: $PUBLIC_IP"

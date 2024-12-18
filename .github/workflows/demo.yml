@@ -29,7 +29,7 @@ jobs:
             --image-id ami-092da15d79485517f \
             --instance-type t2.micro \
             --key-name tf_key \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
 

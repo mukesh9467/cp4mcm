@@ -39,3 +39,13 @@ jobs:
         run: |
           PUBLIC_IP=$(aws ec2 describe-instances --instance-ids ${{ env.INSTANCE_ID }} --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
           echo "Public IP: $PUBLIC_IP"
+
+      # Setup & configure instance
+      - name: Configure Intance
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > temp_key
+          chmod 600 temp_key
+          ssh -i temp_key -o "StrictHostKeyChecking=no" ec2-user@${{ env.PUBLIC_IP }}
+          cd /var/tmp/tf12/
+          wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf
+

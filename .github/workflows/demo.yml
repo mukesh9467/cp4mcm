@@ -26,7 +26,7 @@ jobs:
       - name: Launch EC2 Instance
         id: launch_ec2
         run: |
-          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --security-group-ids sg-0826493edff1d99c8 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}] --output text')
+          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --security-group-ids sg-0826493edff1d99c8 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}] --query 'Instances[0].InstanceId' --output text')
           echo "INSTANCE_ID=${INSTANCE_ID}" >> $GITHUB_ENV
           
       - name: Wait for Instance to be Running

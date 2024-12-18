@@ -18,7 +18,7 @@ jobs:
         run: sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
       
       - name: Check User
-        run: whomi
+        run: whoami
         
       - name: Terraform Plan
         run: cd /var/tmp/tf12 ; terraform init

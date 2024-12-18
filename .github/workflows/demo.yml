@@ -1,4 +1,4 @@
-name: Setup Terraform Engine
+name: CP4MCM Workflow
 
 on:
   push:
@@ -16,5 +16,7 @@ jobs:
        
       - name: Validate Payload-1
         run: |
-          wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
+          sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
+          sudo cd /var/tmp/tf12
+          pwd
 

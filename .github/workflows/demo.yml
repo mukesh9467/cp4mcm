@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  launch-ec2:
+  CP4MCM:
     runs-on: self-hosted
 
     steps:
@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v3
        
       # Setup & configure instance
-      - name: Configure Intance
+      - name: Downloa
         run: |
-          sudo cd /var/tmp/tf12/
-          sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf
+          cd /var/tmp/tf12/
+          sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
 

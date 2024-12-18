@@ -31,8 +31,8 @@ jobs:
           
       - name: Extract Public IP of Instance
         run: |
-          sleep 60
-          PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+          aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+          PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[0].PublicIpAddress' --output text)
           echo "Publis IP: $PUBLIC_IP"
           
       # Setup & configure instance

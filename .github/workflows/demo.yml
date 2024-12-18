@@ -24,4 +24,4 @@ jobs:
         run: cd /var/tmp/tf12 ; terraform plan
         
       - name: Terraform Apply
-        run: cd /var/tmp/tf12 ; terraform apply --auto-approve 
+        run: cd /var/tmp/tf12 ; sudo terraform apply --auto-approve 

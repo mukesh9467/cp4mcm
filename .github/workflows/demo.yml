@@ -38,6 +38,7 @@ jobs:
             --query 'Reservations[0].Instances[0].PublicIpAddress' \
             --output text)
 
+      # Setup & configure instance
       - name: configure & prepare intance
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > temp_key

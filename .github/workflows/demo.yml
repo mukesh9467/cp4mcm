@@ -26,13 +26,14 @@ jobs:
       - name: Launch EC2 Instance
         id: launch_ec2
         run: |
-          aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --security-group-ids sg-0826493edff1d99c8 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'        
-  
+          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --security-group-ids sg-0826493edff1d99c8 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}] --ouput text')
+          echo "INSTANCE_ID=${INSTANCE_ID}" >> $GITHUB_ENV
+          
       - name: Wait for Instance to be Running
         run:
           aws ec2 wait instance-running --instance-ids ${{ env.INSTANCE_ID }}
-          INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=image-id,Values=ami-092da15d79485517f" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[].[InstanceId]' --output text | tail -n 1)   
-          echo "INSTANCE_ID=${INSTANCE_ID}" >> $GITHUB_ENV
+          #INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=image-id,Values=ami-092da15d79485517f" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[].[InstanceId]' --output text | tail -n 1)   
+          #echo "INSTANCE_ID=${INSTANCE_ID}" >> $GITHUB_ENV
           
       - name: Extract Public IP of Instance
         run: |

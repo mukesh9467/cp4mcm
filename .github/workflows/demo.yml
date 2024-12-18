@@ -18,5 +18,5 @@ jobs:
         run: sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
           
       - name: Validate Payload-2
-        run: sudo /var/tmp/tf12/terraform plan -chdir=/var/tmp/tf12
+        run: sudo cd /var/tmp/tf12 && sudo /var/tmp/tf12/terraform plan
 

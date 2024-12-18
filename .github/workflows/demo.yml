@@ -18,5 +18,6 @@ jobs:
         run: |
           sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
           sudo cd /var/tmp/tf12
-          pwd
+          pwd >> PWD
+          echo $PWD
 

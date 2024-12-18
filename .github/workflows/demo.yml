@@ -24,10 +24,11 @@ jobs:
 
       # Launch an EC2 instance & extarct public IP
       - name: Launch EC2 Instance
-        run: 
-          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]' --query 'Instances[0].InstanceId' --output text)
-          #aws ec2 wait instance-running --instance-ids $INSTANCE_ID
-
+        run: |
+          aws ec2 run-instances --image-id ami-092da15d79485517f --instance-type t2.micro --key-name tf_key --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'
+          INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=image-id,Values=ami-092da15d79485517f" --query 'Reservations[*].Instances[].[InstanceId]' --output text | tail -n 1)
+          echo "Instance ID: INSTANCE_ID"
+          
       - name: Extract Public IP of Instance
         run: |
           sleep 60

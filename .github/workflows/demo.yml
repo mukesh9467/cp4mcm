@@ -1,4 +1,4 @@
-name: Launch EC2 Instance
+name: Setup Terraform Engine
 
 on:
   push:
@@ -15,18 +15,33 @@ jobs:
         uses: actions/checkout@v3
 
       # Set up AWS credentials
-      - name: Configure AWS Credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      # Launch an EC2 instance
-      - name: Launch EC2 Instance
-        run: |
-          aws ec2 run-instances \
-            --image-id ami-053b12d3152c0cc71 \
+      # Launch an EC2 instance & extarct public IP
+      - name: Launch EC2 instance
+        run: 
+          INSTANCE_ID=$(aws ec2 run-instances \
+            --image-id ami-092da15d79485517f \
             --instance-type t2.micro \
             --key-name tf_key \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyEC2Instance}]'
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=CP4MCM}]'
+            --query 'Instances[0].InstanceId' \
+            --output text)
+
+          PUBLIC_IP=$(aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[0].Instances[0].PublicIpAddress' \
+            --output text)
+
+      - name: configure & prepare intance
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > temp_key
+          chmod 600 temp_key
+          ssh -i temp_key -o "StrictHostKeyChecking=no" ec2-user@${{ env.PUBLIC_IP }}
+          cd /tmp/var/tf12/
+          wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf

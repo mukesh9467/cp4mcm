@@ -1,4 +1,4 @@
-name: CP4MCM Workflow
+name: Validate Payload Stage
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  CP4MCM:
+  Validate-Payload:
     runs-on: self-hosted
 
     steps:
@@ -14,14 +14,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
        
-      - name: Download Terraform Template
-        run: sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
-              
-      - name: Perform Terraform Init
-        run: cd /var/tmp/tf12 ; terraform init
-
-      - name: Perform Terraform Plan
-        run: cd /var/tmp/tf12 ; terraform plan
-        
-      - name: Perform Terraform Apply
-        run: cd /var/tmp/tf12 ; sudo /var/tmp/tf12/terraform apply --auto-approve 
+      - name: Terraform 
+        run: |
+          sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
+          cd /var/tmp/tf12 ; terraform init
+          cd /var/tmp/tf12 ; terraform plan
+          cd /var/tmp/tf12 ; sudo /var/tmp/tf12/terraform apply --auto-approve 

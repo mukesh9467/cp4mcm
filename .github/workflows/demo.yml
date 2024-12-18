@@ -1,4 +1,4 @@
-name: Validate Payload Stage
+name: CP4MCM Workflow
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
        
-      - name: Terraform 
+      - name: Validae Payload 
         run: |
           sudo wget https://raw.githubusercontent.com/mukesh9467/cp4mcm/main/main.tf -O /var/tmp/tf12/main.tf
           cd /var/tmp/tf12 ; terraform init
